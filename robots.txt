@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://checkarle.com/sitemap.xml

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CheckArle — Smart Travel Budget Calculator (Free)</title>
+  <meta name="description" content="Plan your trip budget in seconds. Enter a few details and get per-person & total cost estimates in INR for flights, stay, food, transport, and activities.">
+  <meta name="keywords" content="travel budget calculator, trip cost, travel planning, budget trip, checkarle">
+  <link rel="canonical" href="https://checkarle.com/">
+  <meta name="author" content="CheckArle">
+  <!-- Open Graph -->
+  <meta property="og:title" content="CheckArle — Smart Travel Budget Calculator (Free)">
+  <meta property="og:description" content="Plan your trip budget in seconds. Simple inputs → instant estimates.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://checkarle.com/">
+  <meta property="og:image" content="https://checkarle.com/og-image.png">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CheckArle — Smart Travel Budget Calculator (Free)">
+  <meta name="twitter:description" content="Plan your trip budget in seconds. Simple inputs → instant estimates.">
+  <meta name="twitter:image" content="https://checkarle.com/og-image.png">
+  <!-- Google AdSense (placeholder - replace with your client id) -->
+  <!-- <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXX"> -->
+  <!-- Google Analytics (GA4 placeholder) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
+  <link rel="preload" href="/assets/styles.css" as="style">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <meta name="robots" content="index, follow">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+  <link rel="icon" href="/assets/favicon.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "CheckArle",
+    "url": "https://checkarle.com/",
+    "description": "Instant travel budget calculator in INR.",
+    "inLanguage": "en-IN",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://checkarle.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How does CheckArle estimate trip budgets?",
+      "acceptedAnswer": {"@type": "Answer","text": "We use region multipliers and travel styles to estimate daily costs for stay, food, local transport and activities, then add flights (your input) and a small contingency."}
+    },{
+      "@type": "Question",
+      "name": "Can I use it for international trips?",
+      "acceptedAnswer": {"@type": "Answer","text": "Yes. Pick a region like Europe or Americas, enter trip days and optional flight estimate per person."}
+    },{
+      "@type": "Question",
+      "name": "Is the calculator free?",
+      "acceptedAnswer": {"@type": "Answer","text": "Yes, it is free to use. We may add optional subscriptions for advanced features later."}
+    }]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container row">
+      <div class="logo">checkarle<span class="dot">.</span></div>
+      <nav><a href="#calculator">Calculator</a><a href="#faq">FAQ</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Plan your trip budget in seconds</h1>
+      <p class="sub">Minimal inputs → Instant estimate in INR. Free & fast.</p>
+      <a class="cta" href="#calculator">Start calculating</a>
+    </section>
+
+    <section id="calculator" class="card">
+      <h2>Travel budget calculator</h2>
+      <form id="calcForm" class="grid">
+        <label>Region
+          <select id="region" required>
+            <option value="india" selected>India</option>
+            <option value="seasia">SE Asia</option>
+            <option value="europe">Europe</option>
+            <option value="americas">Americas</option>
+            <option value="middleeast">Middle East</option>
+            <option value="africa">Africa</option>
+            <option value="oceania">Oceania</option>
+          </select>
+        </label>
+
+        <label>Travel style
+          <select id="style">
+            <option value="backpacker">Backpacker</option>
+            <option value="comfort" selected>Comfort</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </label>
+
+        <label>Days
+          <input type="number" id="days" min="1" value="5" required>
+        </label>
+
+        <label>Travellers
+          <input type="number" id="people" min="1" value="2" required>
+        </label>
+
+        <label>Flight est. per person (₹)
+          <input type="number" id="flight" min="0" step="100" placeholder="e.g., 12000">
+        </label>
+
+        <label>Contingency
+          <select id="buffer">
+            <option value="0.05">5%</option>
+            <option value="0.1" selected>10%</option>
+            <option value="0.15">15%</option>
+          </select>
+        </label>
+
+        <div class="full">
+          <button type="submit" class="cta">Calculate</button>
+        </div>
+      </form>
+
+      <div id="result" class="result hidden">
+        <h3>Estimated budget</h3>
+        <div class="result-grid">
+          <div>
+            <div class="kpi-label">Per person</div>
+            <div id="perPerson" class="kpi">₹0</div>
+          </div>
+          <div>
+            <div class="kpi-label">Total</div>
+            <div id="total" class="kpi">₹0</div>
+          </div>
+        </div>
+        <div class="breakdown">
+          <h4>Breakdown</h4>
+          <ul id="breakdownList"></ul>
+        </div>
+        <div class="share">
+          <input id="shareUrl" readonly>
+          <button id="copyBtn">Copy link</button>
+        </div>
+      </div>
+
+      <p class="note">Note: Estimates use regional cost multipliers. Actual costs vary by city, season, and preferences.</p>
+    </section>
+
+    <section id="faq" class="card">
+      <h2>FAQ</h2>
+      <details>
+        <summary>What are the default daily costs?</summary>
+        <p>Base per-person per-day (India): Backpacker ₹2,500, Comfort ₹5,000, Luxury ₹12,000. Regions multiply these bases.</p>
+      </details>
+      <details>
+        <summary>How do region multipliers work?</summary>
+        <p>SE Asia ×1.2, Europe ×2.0, Americas ×2.2, Middle East ×1.6, Africa ×1.5, Oceania ×2.4.</p>
+      </details>
+      <details>
+        <summary>What is included?</summary>
+        <p>Stay, food, local transport, activities buffer, flights (if provided), and contingency.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container small">
+      <p>© <span id="year"></span> CheckArle. Built for smart, simple trip planning.</p>
+      <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">robots.txt</a>
+    </div>
+  </footer>
+
+  <script src="/assets/script.js" defer></script>
+</body>
+</html>
